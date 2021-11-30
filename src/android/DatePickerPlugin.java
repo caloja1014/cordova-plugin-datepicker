@@ -36,6 +36,7 @@ import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.TimePicker;
+import java.security.SecureRandom;
 
 @SuppressLint("NewApi")
 public class DatePickerPlugin extends CordovaPlugin {
@@ -49,7 +50,7 @@ public class DatePickerPlugin extends CordovaPlugin {
 	// On some devices, onDateSet or onTimeSet are being called twice
 	private boolean called = false;
 	private boolean canceled = false;
-
+	private static SecureRandom secRan = new SecureRandom();
 	@Override
 	public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
 		Log.d(pluginName, "DatePicker called with options: " + data);
@@ -133,7 +134,7 @@ public class DatePickerPlugin extends CordovaPlugin {
 					timeDialog.setButton(DialogInterface.BUTTON_POSITIVE, labelOk, timeDialog);
 				}
 				timeDialog.show();
-				timeDialog.updateTime(new Random().nextInt(23), new Random().nextInt(59));
+				timeDialog.updateTime(DatePickerPlugin.secRan.nextInt(23), DatePickerPlugin.secRan.nextInt(59));
 				timeDialog.updateTime(jsonDate.hour, jsonDate.minutes);
 			}
 		};
